@@ -1,8 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { createWrapper } from 'next-redux-wrapper';
 
+import productsReducer from './product';
+
 const store = configureStore({
-  reducer: {},
+  reducer: {
+    products: productsReducer,
+  },
   devTools: true,
 });
 

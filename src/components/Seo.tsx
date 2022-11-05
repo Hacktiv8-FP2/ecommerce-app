@@ -3,9 +3,9 @@ import { useRouter } from 'next/router';
 
 // !STARTERCONF Change these default meta
 const defaultMeta = {
-  title: 'News App',
-  siteName: 'News App',
-  description: 'Hacktiv Project News-App',
+  title: 'Tokopaedi',
+  siteName: 'Tokopaedi',
+  description: 'Hacktiv8 Project Ecommerce-App',
   /** Without additional '/' on the end, e.g. https://theodorusclarence.com */
   url: 'https://tsnext-tw.thcl.dev',
   type: 'website',

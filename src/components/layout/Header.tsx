@@ -1,17 +1,22 @@
 import * as React from 'react';
 
 import UnstyledLink from '@/components/links/UnstyledLink';
+import { useAppSelector } from '@/hooks/redux';
 
 export default function Header() {
-  const isLoggedIn = false;
+  const { user } = useAppSelector(({ user }) => user);
+
+  React.useMemo(() => {
+    user.token;
+  }, [user.token]);
 
   const links = [
     {
-      href: isLoggedIn ? '/logout' : '/login',
-      label: isLoggedIn ? 'Logout' : 'Login',
+      href: user.token ? '/logout' : '/login',
+      label: user.token ? 'Logout' : 'Login',
     },
   ];
-  isLoggedIn && links.unshift({ href: '/cart', label: 'Cart' });
+  user.token && links.unshift({ href: '/cart', label: 'Cart' });
   return (
     <header className='sticky top-0 z-50 bg-white'>
       <div className='layout flex h-14 items-center justify-between'>

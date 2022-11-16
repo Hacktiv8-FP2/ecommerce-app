@@ -6,15 +6,22 @@ import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { getAllProducts } from '@/redux/product';
 import NextImage from '@/components/NextImage';
 import { useRouter } from 'next/router';
+import { addToCart } from '@/redux/cart';
+import { Products } from '@/types';
 
 export default function HomePage() {
   const { products } = useAppSelector(({ products }) => products);
+  const { user } = useAppSelector(({ user }) => user);
   const dispatch = useAppDispatch();
   const router = useRouter();
 
   React.useEffect(() => {
     dispatch(getAllProducts());
   }, []);
+
+  const addToCartHandler = (product: Products) => {
+    user.token ? dispatch(addToCart(product)) : router.push('/login');
+  };
 
   return (
     <Layout>
@@ -29,9 +36,9 @@ export default function HomePage() {
               {products.map((product) => (
                 <div
                   key={product.id}
-                  className='group relative flex flex-col justify-between'
+                  className='group relative transform rounded-l transition-all duration-200 ease-in-out hover:scale-110 hover:p-2 hover:shadow-lg'
                 >
-                  <div>
+                  <div className='h-[360px]'>
                     <div className='aspect-w-4 aspect-h-3 overflow-hidden rounded-lg bg-gray-100'>
                       <NextImage
                         useSkeleton
@@ -73,14 +80,14 @@ export default function HomePage() {
                       {product.category}
                     </p>
                   </div>
-                  <div className='mt-6 '>
-                    <a
-                      href={product.image}
-                      className='relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 py-2 px-8 text-sm font-medium text-gray-900 hover:bg-gray-200'
+                  <div className='absolute inset-x-0 bottom-0 mt-6'>
+                    <div
+                      className='relative flex cursor-pointer items-center justify-center rounded-md border border-transparent bg-gray-100 py-2 px-8 text-sm font-medium text-gray-900 hover:bg-gray-200'
+                      onClick={() => addToCartHandler(product)}
                     >
-                      Add to bag
+                      Add to Cart
                       <span className='sr-only'>, {product.title}</span>
-                    </a>
+                    </div>
                   </div>
                 </div>
               ))}

@@ -4,16 +4,25 @@ import { useRouter } from 'next/router';
 import * as React from 'react';
 import { FcCheckmark } from 'react-icons/fc';
 import { AiFillStar } from 'react-icons/ai';
-import { useAppSelector } from '@/hooks/redux';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import { addToCart } from '@/redux/cart';
+import { Products } from '@/types';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
 export default function ProductPage() {
-  const { id } = useRouter().query;
+  const router = useRouter();
+  const { id } = router.query;
   const { products } = useAppSelector(({ products }) => products);
+  const { user } = useAppSelector(({ user }) => user);
+  const dispatch = useAppDispatch();
   const product = products.find((product) => product.id === Number(id))!;
+
+  const addToCartHandler = (product: Products) => {
+    user.token ? dispatch(addToCart(product)) : router.push('/login');
+  };
 
   return (
     <Layout>
@@ -104,8 +113,9 @@ export default function ProductPage() {
                   <button
                     type='submit'
                     className='flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50'
+                    onClick={() => addToCartHandler(product)}
                   >
-                    Add to bag
+                    Add to Cart
                   </button>
                 </div>
               </section>

@@ -10,3 +10,14 @@ export type Products = {
     count: number;
   };
 };
+
+export type Cart = Products & { quantity: number };
+
+export type User = {
+  username: string;
+  password: string;
+};
+
+export type UserResponse = {
+  token: string | null;
+};

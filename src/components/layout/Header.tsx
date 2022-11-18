@@ -7,8 +7,8 @@ export default function Header() {
   const { user } = useAppSelector(({ user }) => user);
 
   React.useMemo(() => {
-    user.token;
-  }, [user.token]);
+    user;
+  }, [user]);
 
   const links = [
     {
@@ -17,10 +17,14 @@ export default function Header() {
     },
   ];
   user.token && links.unshift({ href: '/cart', label: 'Cart' });
+  user.admin && links.unshift({ href: '/sale', label: 'Sales Recap' });
   return (
     <header className='sticky top-0 z-50 bg-white'>
       <div className='layout flex h-14 items-center justify-between'>
-        <UnstyledLink href='/' className='font-bold hover:text-gray-600'>
+        <UnstyledLink
+          href={user.admin ? '/admin' : '/'}
+          className='font-bold hover:text-gray-600'
+        >
           Home
         </UnstyledLink>
         <nav className='flex gap-4'>

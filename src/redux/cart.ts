@@ -14,8 +14,8 @@ const initialState = {
   loading: false,
 } as CartState;
 
-const productsSlice = createSlice({
-  name: 'products',
+const cartSlice = createSlice({
+  name: 'cart',
   initialState,
   reducers: {
     addToCart: (state, action) => {
@@ -25,11 +25,21 @@ const productsSlice = createSlice({
       if (product) {
         product.quantity += 1;
       } else {
-        state.cart.push({ ...action.payload });
+        state.cart.push({ ...action.payload, quantity: 1 });
       }
+    },
+    updateQuantity: (state, action) => {
+      const { id, quantity } = action.payload;
+      const product = state.cart.find((item) => item.id === id);
+      if (product) {
+        product.quantity = quantity;
+      }
+    },
+    clearCart: (state) => {
+      state.cart = [];
     },
   },
 });
 
-export default productsSlice.reducer;
-export const { addToCart } = productsSlice.actions;
+export default cartSlice.reducer;
+export const { addToCart, clearCart, updateQuantity } = cartSlice.actions;

@@ -3,7 +3,7 @@ import { logout } from '@/redux/user';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 
-export default function Logout() {
+export default function LogoutPage() {
   const dispatch = useAppDispatch();
   const router = useRouter();
 

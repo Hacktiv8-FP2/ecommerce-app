@@ -39,13 +39,33 @@ const initialState = {
 const productsSlice = createSlice({
   name: 'products',
   initialState,
-  reducers: {},
+  reducers: {
+    updateQuantity: (state, action) => {
+      const { id, quantity } = action.payload;
+      const product = state.products.find((item) => item.id === id);
+      if (product) {
+        product.quantity = quantity;
+      }
+    },
+    updateProducts: (state, action) => {
+      const products = action.payload as Products[];
+      products.forEach((product) => {
+        const item = state.products.find((item) => item.id === product.id);
+        if (item) {
+          item.quantity -= product.quantity;
+        }
+      });
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getAllProducts.pending, (state) => {
       return { ...state, loading: true };
     });
     builder.addCase(getAllProducts.fulfilled, (state, action) => {
       const { data } = action.payload as { data: Products[] };
+      data.forEach((item) => {
+        item.quantity = 20;
+      });
       return { ...state, loading: false, products: data };
     });
     builder.addCase(getAllProducts.rejected, (state, action) => {
@@ -55,3 +75,4 @@ const productsSlice = createSlice({
 });
 
 export default productsSlice.reducer;
+export const { updateQuantity, updateProducts } = productsSlice.actions;

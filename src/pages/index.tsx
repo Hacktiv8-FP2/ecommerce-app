@@ -16,7 +16,7 @@ export default function HomePage() {
   const router = useRouter();
 
   React.useEffect(() => {
-    dispatch(getAllProducts());
+    !products.length && dispatch(getAllProducts());
   }, []);
 
   const addToCartHandler = (product: Products) => {

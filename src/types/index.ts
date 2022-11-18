@@ -5,13 +5,14 @@ export type Products = {
   category: string;
   description: string;
   image: string;
+  quantity: number;
   rating: {
     rate: number;
     count: number;
   };
 };
 
-export type Cart = Products & { quantity: number };
+export type Cart = Products;
 
 export type User = {
   username: string;
@@ -20,4 +21,5 @@ export type User = {
 
 export type UserResponse = {
   token: string | null;
+  admin?: boolean;
 };

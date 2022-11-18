@@ -4,7 +4,9 @@ import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
 import '@/styles/colors.css';
 
-import { wrapper } from '@/redux/store';
+import { makeStore, persistor } from '@/redux/store';
+import withRedux from 'next-redux-wrapper';
+import { PersistGate } from 'redux-persist/integration/react';
 
 /**
  * !STARTERCONF info
@@ -12,7 +14,11 @@ import { wrapper } from '@/redux/store';
  */
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <PersistGate loading={null} persistor={persistor}>
+      <Component {...pageProps} />
+    </PersistGate>
+  );
 }
 
-export default wrapper.withRedux(MyApp);
+export default withRedux(makeStore)(MyApp);

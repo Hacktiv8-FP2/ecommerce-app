@@ -1,9 +1,9 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { userLogin } from '@/redux/user';
+import { adminLogin, userLogin } from '@/redux/user';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 
-export default function Login() {
+export default function LoginPage() {
   const usernameRef = React.useRef<HTMLInputElement>(null);
   const passwordRef = React.useRef<HTMLInputElement>(null);
   const { user } = useAppSelector(({ user }) => user);
@@ -16,12 +16,25 @@ export default function Login() {
 
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(
-      userLogin({
-        username: usernameRef.current!.value,
-        password: passwordRef.current!.value,
-      })
-    );
+    const admin = {
+      username: 'admin@tokopaedi.com',
+      password: 'admin123',
+    };
+    if (
+      usernameRef.current?.value === admin.username &&
+      passwordRef.current?.value === admin.password
+    ) {
+      dispatch(adminLogin());
+      return router.push('/admin');
+    }
+    if (usernameRef.current && passwordRef.current) {
+      dispatch(
+        userLogin({
+          username: usernameRef.current!.value,
+          password: passwordRef.current!.value,
+        })
+      );
+    }
   };
 
   return (

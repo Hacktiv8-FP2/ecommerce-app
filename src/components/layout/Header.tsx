@@ -13,11 +13,11 @@ export default function Header() {
   const links = [
     {
       href: user.token ? '/logout' : '/login',
-      label: user.token ? 'Logout' : 'Login',
+      label: user.token || user.admin ? 'Logout' : 'Login',
     },
   ];
   user.token && links.unshift({ href: '/cart', label: 'Cart' });
-  user.admin && links.unshift({ href: '/sale', label: 'Sales Recap' });
+  user.admin && links.unshift({ href: '/admin/sales', label: 'Sales Recap' });
   return (
     <header className='sticky top-0 z-50 bg-white'>
       <div className='layout flex h-14 items-center justify-between'>

@@ -3,9 +3,17 @@ import * as React from 'react';
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 import { useAppSelector } from '@/hooks/redux';
+import { useRouter } from 'next/router';
 
 export default function SalesPage() {
   const { sales } = useAppSelector(({ sales }) => sales);
+  const { user } = useAppSelector(({ user }) => user);
+  const router = useRouter();
+
+  React.useEffect(() => {
+    !user.admin && router.push('/');
+  }, []);
+
   return (
     <Layout>
       <Seo />

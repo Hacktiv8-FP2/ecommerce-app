@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { updateQuantity } from '@/redux/cart';
+import { removeFromCart, updateQuantity } from '@/redux/cart';
 import { Products } from '@/types';
 import * as React from 'react';
 import { IoClose } from 'react-icons/io5';
@@ -67,6 +67,7 @@ export default function CartList({ product, productIdx }: Props) {
               <button
                 type='button'
                 className='-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500'
+                onClick={() => dispatch(removeFromCart({ id: product.id }))}
               >
                 <span className='sr-only'>Remove</span>
                 <IoClose className='h-5 w-5' aria-hidden='true' />

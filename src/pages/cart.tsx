@@ -1,15 +1,17 @@
 import CartList from '@/components/CartList';
 import Layout from '@/components/layout/Layout';
+import Modal from '@/components/Modal';
 import Seo from '@/components/Seo';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { clearCart } from '@/redux/cart';
 import { updateProducts } from '@/redux/product';
 import { addToSales } from '@/redux/sales';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function CartPage() {
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
   const { user } = useAppSelector(({ user }) => user);
   const { cart } = useAppSelector(({ cart }) => cart);
   const dispatch = useAppDispatch();
@@ -27,40 +29,59 @@ export default function CartPage() {
 
   const handleCheckout = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    dispatch(addToSales(cart));
-    dispatch(updateProducts(cart));
-    dispatch(clearCart());
-    router.push('/');
+    if (cart.length) {
+      dispatch(addToSales(cart));
+      dispatch(updateProducts(cart));
+      dispatch(clearCart());
+
+      setIsOpen(true);
+    }
   };
 
   return (
     <Layout>
       <Seo />
       <main>
+        <Modal isOpen={isOpen} setIsOpen={setIsOpen} />
         <section className='bg-white'>
           <div className='mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 lg:max-w-7xl lg:px-8'>
             <h1 className='text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl'>
               Shopping Cart
             </h1>
-            <form className='mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16'>
-              <section aria-labelledby='cart-heading' className='lg:col-span-7'>
-                <h2 id='cart-heading' className='sr-only'>
-                  Items in your shopping cart
-                </h2>
 
-                <ul
-                  role='list'
-                  className='divide-y divide-gray-200 border-t border-b border-gray-200'
+            <form className='mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16'>
+              {cart.length ? (
+                <section
+                  aria-labelledby='cart-heading'
+                  className='lg:col-span-7'
                 >
-                  {cart.map((product, productIdx) => (
-                    <CartList
-                      product={product}
-                      productIdx={productIdx}
-                      key={productIdx}
-                    />
-                  ))}
-                </ul>
-              </section>
+                  <h2 id='cart-heading' className='sr-only'>
+                    Items in your shopping cart
+                  </h2>
+
+                  <ul
+                    role='list'
+                    className='divide-y divide-gray-200 border-t border-b border-gray-200'
+                  >
+                    {cart.map((product, productIdx) => (
+                      <CartList
+                        product={product}
+                        productIdx={productIdx}
+                        key={productIdx}
+                      />
+                    ))}
+                  </ul>
+                </section>
+              ) : (
+                <div className='lg:col-span-7'>
+                  <h2 className='text-2xl font-bold text-gray-900'>
+                    Your cart is empty
+                  </h2>
+                  <p className='text-gray-500'>
+                    Add something to make me happy :)
+                  </p>
+                </div>
+              )}
 
               {/* Order summary */}
               <section

@@ -20,11 +20,11 @@ export default function ProductItems({ product }: Props) {
 
   return (
     <div className='group relative transform rounded-l p-2 transition-all duration-200 ease-in-out hover:scale-110 hover:shadow-lg'>
-      <div className='h-[320px]'>
-        <div className='aspect-w-4 aspect-h-3 overflow-hidden rounded-lg bg-gray-100'>
+      <div className='h-[340px]'>
+        <div className='aspect-w-4 aspect-h-3 overflow-hidden rounded-lg bg-white'>
           <NextImage
             useSkeleton
-            className='w-52 group-hover:opacity-75'
+            className='mx-auto w-52 group-hover:opacity-75'
             src={product.image}
             width='180'
             height='180'

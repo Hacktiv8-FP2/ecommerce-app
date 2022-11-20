@@ -6,17 +6,22 @@ import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { getAllProducts } from '@/redux/product';
 import ProductAdminTable from '@/components/ProductAdminTable';
 import { useRouter } from 'next/router';
+import Loading from '@/components/Loading';
 
 export default function AdminPage() {
-  const { products } = useAppSelector(({ products }) => products);
+  const { products, loading } = useAppSelector(({ products }) => products);
   const { user } = useAppSelector(({ user }) => user);
   const dispatch = useAppDispatch();
   const router = useRouter();
 
   React.useEffect(() => {
     !user.admin && router.push('/');
-    dispatch(getAllProducts());
+    !products.length && dispatch(getAllProducts());
   }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <Layout>

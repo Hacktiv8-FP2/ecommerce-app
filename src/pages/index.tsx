@@ -5,15 +5,20 @@ import Seo from '@/components/Seo';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { getAllProducts } from '@/redux/product';
 import ProductItems from '@/components/ProductItems';
+import Loading from '@/components/Loading';
 
 export default function HomePage() {
-  const { products } = useAppSelector(({ products }) => products);
+  const { products, loading } = useAppSelector(({ products }) => products);
 
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
     !products.length && dispatch(getAllProducts());
   }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <Layout>

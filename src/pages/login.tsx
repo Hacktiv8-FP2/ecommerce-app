@@ -17,7 +17,7 @@ export default function LoginPage() {
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const admin = {
-      username: 'admin@tokopaedi.com',
+      username: 'admin@bukapedia.com',
       password: 'admin123',
     };
     if (

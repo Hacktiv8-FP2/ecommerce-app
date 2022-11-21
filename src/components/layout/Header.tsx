@@ -12,7 +12,7 @@ export default function Header() {
 
   const links = [
     {
-      href: user.token ? '/logout' : '/login',
+      href: user.token || user.admin ? '/logout' : '/login',
       label: user.token || user.admin ? 'Logout' : 'Login',
     },
   ];

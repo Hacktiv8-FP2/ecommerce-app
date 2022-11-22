@@ -2,6 +2,8 @@ import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { adminLogin, userLogin } from '@/redux/user';
 import { useRouter } from 'next/router';
 import * as React from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function LoginPage() {
   const usernameRef = React.useRef<HTMLInputElement>(null);
@@ -11,34 +13,45 @@ export default function LoginPage() {
   const router = useRouter();
 
   React.useEffect(() => {
-    user.token && router.push('/');
-  }, [user.token]);
+    user?.token && router.push('/');
+  }, [user?.token]);
+
+  const handleLogin = () =>
+    new Promise<void>((resolve, reject) => {
+      const username = usernameRef.current!.value;
+      const password = passwordRef.current!.value;
+      const admin = {
+        username: 'admin@bukapedia.com',
+        password: 'admin123',
+      };
+
+      if (username === admin.username && password === admin.password) {
+        dispatch(adminLogin());
+        return resolve();
+      }
+
+      dispatch(userLogin({ username, password }))
+        .unwrap()
+        .then(() => {
+          resolve();
+        })
+        .catch(() => {
+          reject();
+        });
+    });
 
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const admin = {
-      username: 'admin@bukapedia.com',
-      password: 'admin123',
-    };
-    if (
-      usernameRef.current?.value === admin.username &&
-      passwordRef.current?.value === admin.password
-    ) {
-      dispatch(adminLogin());
-      return router.push('/admin');
-    }
-    if (usernameRef.current && passwordRef.current) {
-      dispatch(
-        userLogin({
-          username: usernameRef.current!.value,
-          password: passwordRef.current!.value,
-        })
-      );
-    }
+    toast.promise(handleLogin(), {
+      pending: 'Logging in...',
+      success: 'Successfully logged in',
+      error: 'Invalid username or password',
+    });
   };
 
   return (
     <div className='flex min-h-screen'>
+      <ToastContainer />
       <div className='flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24'>
         <div className='mx-auto w-full max-w-sm lg:w-96'>
           <div>

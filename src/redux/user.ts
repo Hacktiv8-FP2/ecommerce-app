@@ -18,12 +18,12 @@ function postUser({ username, password }: User) {
 
 export const userLogin = createAsyncThunk(
   'user',
-  async ({ username, password }: User) => {
+  async ({ username, password }: User, { rejectWithValue }) => {
     try {
       const res = await postUser({ username, password });
       return res;
     } catch (err) {
-      return err;
+      return rejectWithValue(err);
     }
   }
 );

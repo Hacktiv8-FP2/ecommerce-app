@@ -12,17 +12,17 @@ export default function Header() {
 
   const links = [
     {
-      href: user.token || user.admin ? '/logout' : '/login',
-      label: user.token || user.admin ? 'Logout' : 'Login',
+      href: user?.token || user?.admin ? '/logout' : '/login',
+      label: user?.token || user?.admin ? 'Logout' : 'Login',
     },
   ];
-  user.token && links.unshift({ href: '/cart', label: 'Cart' });
-  user.admin && links.unshift({ href: '/admin/sales', label: 'Sales Recap' });
+  user?.token && links.unshift({ href: '/cart', label: 'Cart' });
+  user?.admin && links.unshift({ href: '/admin/sales', label: 'Sales Recap' });
   return (
     <header className='sticky top-0 z-50 bg-white'>
       <div className='layout flex h-14 items-center justify-between'>
         <UnstyledLink
-          href={user.admin ? '/admin' : '/'}
+          href={user?.admin ? '/admin' : '/'}
           className='font-bold hover:text-gray-600'
         >
           Home

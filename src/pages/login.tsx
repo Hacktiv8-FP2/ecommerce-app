@@ -13,7 +13,7 @@ export default function LoginPage() {
   const router = useRouter();
 
   React.useEffect(() => {
-    user?.token && router.push('/');
+    user?.token && setTimeout(() => router.push('/'), 1500);
   }, [user?.token]);
 
   const handleLogin = () =>
@@ -27,6 +27,7 @@ export default function LoginPage() {
 
       if (username === admin.username && password === admin.password) {
         dispatch(adminLogin());
+        router.push('/admin');
         return resolve();
       }
 

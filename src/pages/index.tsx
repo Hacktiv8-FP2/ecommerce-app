@@ -30,9 +30,12 @@ export default function HomePage() {
               <h2 className='text-lg font-medium text-gray-900'>Products</h2>
             </div>
             <div className='mt-6 grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 sm:gap-y-10 lg:grid-cols-4'>
-              {products.map((product) => (
-                <ProductItems key={product.id} product={product} />
-              ))}
+              {products.map(
+                (product) =>
+                  product.quantity > 0 && (
+                    <ProductItems key={product.id} product={product} />
+                  )
+              )}
             </div>
           </div>
         </section>

@@ -63,14 +63,17 @@ export default function AdminPage() {
                         </tr>
                       </thead>
                       <tbody className='bg-white'>
-                        {products.map((product, productIdx) => (
-                          <ProductAdminTable
-                            product={product}
-                            productIdx={productIdx}
-                            key={productIdx}
-                            length={products.length}
-                          />
-                        ))}
+                        {products.map(
+                          (product, productIdx) =>
+                            product.quantity > 0 && (
+                              <ProductAdminTable
+                                product={product}
+                                productIdx={productIdx}
+                                key={productIdx}
+                                length={products.length}
+                              />
+                            )
+                        )}
                       </tbody>
                     </table>
                   </div>

@@ -51,7 +51,10 @@ export default function ProductItems({ product }: Props) {
               {product.title}
             </a>
           </h3>
-          <p className='items-center'>${product.price}</p>
+          <div className='text-end'>
+            <p>${product.price}</p>
+            <p className='text-xs'>Stock : {product.quantity}</p>
+          </div>
         </div>
         <p className='mt-1 text-sm text-gray-500'>{product.category}</p>
       </div>

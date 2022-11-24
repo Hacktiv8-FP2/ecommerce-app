@@ -17,6 +17,13 @@ export default function Header() {
     },
   ];
   user?.token && links.unshift({ href: '/cart', label: 'Cart' });
+  !user.admin &&
+    links.unshift(
+      { href: '/electronics', label: 'Electronics' },
+      { href: '/jewelery', label: 'Jewelery' },
+      { href: '/mens-clothing', label: "Men's Clothing" },
+      { href: '/womens-clothing', label: "Women's Clothing" }
+    );
   user?.admin && links.unshift({ href: '/admin/sales', label: 'Sales Recap' });
   return (
     <header className='sticky top-0 z-50 bg-white'>

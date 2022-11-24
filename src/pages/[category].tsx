@@ -2,29 +2,12 @@ import * as React from 'react';
 
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { getAllProducts } from '@/redux/product';
 import ProductItems from '@/components/ProductItems';
 import Loading from '@/components/Loading';
-import { useRouter } from 'next/router';
-
-const categories = {
-  electronics: 'electronics',
-  jewelery: 'jewelery',
-  'mens-clothing': "men's clothing",
-  'womens-clothing': "women's clothing",
-};
+import useGetProductsByCategory from '@/hooks/useGetProductsByCategory';
 
 export default function HomePage() {
-  const { products, loading } = useAppSelector(({ products }) => products);
-  const dispatch = useAppDispatch();
-  const router = useRouter();
-  const { category } = router.query;
-  const categoryProduct = categories[category as keyof typeof categories];
-
-  React.useEffect(() => {
-    !products.length && dispatch(getAllProducts());
-  }, []);
+  const { products, loading } = useGetProductsByCategory();
 
   if (loading) {
     return <Loading />;
@@ -40,14 +23,12 @@ export default function HomePage() {
               <h2 className='text-lg font-medium text-gray-900'>Products</h2>
             </div>
             <div className='mt-6 grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 sm:gap-y-10 lg:grid-cols-4'>
-              {products
-                .filter((product) => product.category === categoryProduct)
-                .map(
-                  (product) =>
-                    product.quantity > 0 && (
-                      <ProductItems key={product.id} product={product} />
-                    )
-                )}
+              {products.map(
+                (product) =>
+                  product.quantity > 0 && (
+                    <ProductItems key={product.id} product={product} />
+                  )
+              )}
             </div>
           </div>
         </section>

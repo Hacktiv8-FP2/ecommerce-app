@@ -2,19 +2,13 @@ import * as React from 'react';
 
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { getAllProducts } from '@/redux/product';
+
 import ProductItems from '@/components/ProductItems';
 import Loading from '@/components/Loading';
+import useGetProducts from '@/hooks/useGetProducts';
 
 export default function HomePage() {
-  const { products, loading } = useAppSelector(({ products }) => products);
-
-  const dispatch = useAppDispatch();
-
-  React.useEffect(() => {
-    !products.length && dispatch(getAllProducts());
-  }, []);
+  const { products, loading } = useGetProducts();
 
   if (loading) {
     return <Loading />;

@@ -1,24 +1,18 @@
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
-import { useRouter } from 'next/router';
 import * as React from 'react';
 import { FcCheckmark } from 'react-icons/fc';
 import { AiFillStar } from 'react-icons/ai';
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { addToCart } from '@/redux/cart';
 import { Products } from '@/types';
+import useGetProductById from '@/hooks/useGetProductById';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
 export default function ProductPage() {
-  const router = useRouter();
-  const { id } = router.query;
-  const { products } = useAppSelector(({ products }) => products);
-  const { user } = useAppSelector(({ user }) => user);
-  const dispatch = useAppDispatch();
-  const product = products.find((product) => product.id === Number(id))!;
+  const { product, user, router, dispatch } = useGetProductById();
 
   const addToCartHandler = (product: Products) => {
     user.token ? dispatch(addToCart(product)) : router.push('/login');
